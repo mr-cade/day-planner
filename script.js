@@ -19,7 +19,7 @@ for (var i = 8; i <= 18; i++) {
         "class": "row time-block hour"
     });
 
-    // conditional to assign past/present/future formatting
+    // conditional to assign past/present/future color formatting
     var currentHour = parseInt(moment().startOf('hour').format('kk'));
 
     if (currentHour < timeBlock.id) {
@@ -36,25 +36,36 @@ for (var i = 8; i <= 18; i++) {
     $(".container").append(timeBlock);
     // create save button
     var saveBtn = document.createElement("button")
-    $(saveBtn).text("Save");
+    $(saveBtn).text("");
     $(saveBtn).attr({
         "id": i,
-        "class": "saveBtn"
+        "class": "saveBtn far fa-save"
     })
     $(timeBlock).append(saveBtn);
 }
 console.log("current hour: " + currentHour);
 
 // get previously saved local events
+function getLocal() {
+    var fromLocal = JSON.parse(localStorage.getItem("events"));
+    if (fromLocal != null) {
+        for (var i = 0; i < fromLocal.length; i++) {
+            localArr.push(fromLocal[i]);
+            console.log("get local time: " + localArr[i].time);
+            console.log("get local event: " + localArr[i].text);
+        } 
+    }
+}
+getLocal()
 
-
-// save data to local storage function
+// save data to local storage 
+        
 function setLocal() {
-    console.log(this.id);
-    console.log(this.parentElement.children[0].value);
+    console.log("set local time: " + this.id);
+    console.log("set local event: " + this.parentElement.children[0].value);
 
     var timeAndText = {
-        time : event.target.id,
+        time : this.id,
         text : this.parentElement.children[0].value
     }
     localArr.push(timeAndText);

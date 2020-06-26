@@ -4,10 +4,15 @@ var eventInput = $('textarea');
 var localArr = [];
 
 $("#currentDay").text(today);
+setInterval (function() {
+    $("#currentTime").text(moment().format('hh:mm:ss'))
+}, 500);
 
 for (var i = 8; i <= 18; i++) {
     var timeBlock = document.createElement("div");
     // formats based on # of digits
+    
+    
     if(i < 10) {
         $(timeBlock).text("0" + i + ":00");
     } else {
@@ -31,9 +36,12 @@ for (var i = 8; i <= 18; i++) {
     }
 
     // adds text input box to each time block
-    $(timeBlock).append("<textarea>")
+    var textArea = $("<textarea>")
+    $(textArea).attr({
+        "class": "col-8"
+    })
+    $(timeBlock).append(textArea)
     // adds entire time block to the container
-    $(".container").append(timeBlock);
     // create save button
     var saveBtn = document.createElement("button")
     $(saveBtn).text("");
@@ -42,6 +50,8 @@ for (var i = 8; i <= 18; i++) {
         "class": "saveBtn far fa-save"
     })
     $(timeBlock).append(saveBtn);
+    $(".container").append(timeBlock);
+
 }
 console.log("current hour: " + currentHour);
 
@@ -51,9 +61,15 @@ function getLocal() {
     if (fromLocal != null) {
         for (var i = 0; i < fromLocal.length; i++) {
             localArr.push(fromLocal[i]);
+            console.log($("#"+fromLocal[i].time).children[0])
+                
+                $("."+fromLocal[i].time ).val(fromLocal[i].text)
+            
             console.log("get local time: " + localArr[i].time);
             console.log("get local event: " + localArr[i].text);
         } 
+        console.log(localArr);
+        
     }
 }
 getLocal()

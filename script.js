@@ -8,21 +8,27 @@ setInterval (function() {
     $("#currentTime").text(moment().format('hh:mm:ss'))
 }, 500);
 
+// create timeblocks for display
 for (var i = 8; i <= 18; i++) {
     var timeBlock = document.createElement("div");
+    
+    var hourDisplay = document.createElement("div");
+
+    $(hourDisplay).attr({"class": "col-1"})
+
     // formats based on # of digits
-    
-    
     if(i < 10) {
-        $(timeBlock).text("0" + i + ":00");
+        $(hourDisplay).text("0" + i + ":00");
     } else {
-        $(timeBlock).text(i + ":00");
+        $(hourDisplay).text(i + ":00");
     }
+    $(timeBlock).append(hourDisplay);
+
     // sets id and classes for css 
     $(timeBlock).attr({
         "id": i,
-        "class": "row time-block hour"
-    });
+        "class": "row time-block "
+    })
 
     // conditional to assign past/present/future color formatting
     var currentHour = parseInt(moment().startOf('hour').format('kk'));
@@ -41,19 +47,19 @@ for (var i = 8; i <= 18; i++) {
         "class": "col-8"
     })
     $(timeBlock).append(textArea)
-    // adds entire time block to the container
+    
     // create save button
     var saveBtn = document.createElement("button")
     $(saveBtn).text("");
     $(saveBtn).attr({
         "id": i,
-        "class": "saveBtn far fa-save"
+        "class": "saveBtn far fa-save col-2"
     })
     $(timeBlock).append(saveBtn);
+    // adds entire time block to the container
     $(".container").append(timeBlock);
 
 }
-console.log("current hour: " + currentHour);
 
 // get previously saved local events
 function getLocal() {
@@ -61,15 +67,10 @@ function getLocal() {
     if (fromLocal != null) {
         for (var i = 0; i < fromLocal.length; i++) {
             localArr.push(fromLocal[i]);
-            console.log($("#"+fromLocal[i].time).children[0])
-                
-                $("."+fromLocal[i].time ).val(fromLocal[i].text)
-            
-            console.log("get local time: " + localArr[i].time);
-            console.log("get local event: " + localArr[i].text);
+            console.log($("."+fromLocal[i].time))    
+            $("."+fromLocal[i].time ).val(fromLocal[i].text)
         } 
         console.log(localArr);
-        
     }
 }
 getLocal()
